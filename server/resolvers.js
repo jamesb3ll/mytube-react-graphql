@@ -1,4 +1,4 @@
-import { GraphQLUpload } from 'apollo-server';
+import { GraphQLUpload } from 'apollo-server-express';
 
 export default {
   Upload: GraphQLUpload,
@@ -8,8 +8,8 @@ export default {
     },
   },
   Mutation: {
-    async uploadVideo(parent, { name, file }, { videos, saveVideo }) {
-      const { filename, mimetype, createReadStream } = await file;
+    async uploadVideo(parent, { name, file: upload }, { videos, saveVideo }) {
+      const { filename, mimetype, createReadStream } = await upload;
 
       // Naive video format verification
       if (!mimetype.includes('video')) {
@@ -17,10 +17,10 @@ export default {
       }
 
       const stream = createReadStream();
-      const { path } = await saveVideo(filename, stream);
-      videos.push({ name, file: path });
+      const { file } = await saveVideo(filename, stream);
+      videos.push({ name, file });
 
-      return { name, file: path };
+      return { name, file };
     },
   },
 };

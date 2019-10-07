@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '../../utils';
+import { UPLOADS_ENDPOINT } from '../../utils/constants';
 
 export default function Home() {
   const { errors, data } = useQuery(`
@@ -22,28 +23,29 @@ export default function Home() {
         )}
         <div className="columns is-multiline">
           {data
-            ? data.videos.map(video => (
-                <div className="column is-half" key={video.file}>
-                  <div className="card">
-                    <div className="card-image">
-                      <figure className="image is-4by3">
-                        <img
-                          src="https://placehold.it/400x200"
-                          alt="Thumbnail"
-                        />
-                      </figure>
-                    </div>
-                    <div className="card-content">
-                      <div className="media">
-                        <div className="media-content">
-                          <p className="title is-4">{video.name}</p>
-                          <p className="subtitle is-6">{video.file}</p>
+            ? data.videos.length
+              ? data.videos.map(video => (
+                  <div className="column is-half" key={video.file}>
+                    <div className="card">
+                      <div className="card-image">
+                        <video controls>
+                          <source
+                            src={`${UPLOADS_ENDPOINT}/${video.file}`}
+                            type="video/mp4"
+                          />
+                        </video>
+                      </div>
+                      <div className="card-content">
+                        <div className="media">
+                          <div className="media-content">
+                            <p className="title is-4">{video.name}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))
+              : 'No videos uploaded yet. Upload a video to get started!'
             : !errors && 'Loading...'}
         </div>
       </div>
