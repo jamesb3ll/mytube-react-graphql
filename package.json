@@ -1,17 +1,23 @@
 {
   "name": "mytube-shootsta",
   "version": "0.1.0",
+  "description": "Shootsta Challenge",
+  "repository": "https://github.com/jamesb3ll/mytube-shootsta",
+  "author": "James Bell",
   "private": true,
   "dependencies": {
+    "apollo-server": "^2.9.5",
+    "esm": "^3.2.25",
+    "graphql": "^14.5.8",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0"
   },
   "scripts": {
+    "start:server": "node server",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
