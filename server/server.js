@@ -1,6 +1,8 @@
 import { ApolloServer, gql, GraphQLUpload } from 'apollo-server';
 import fs from 'fs';
 
+const UPLOAD_DIR = __dirname + '/uploads';
+
 const typeDefs = gql`
   type Video {
     name: String!
@@ -14,19 +16,24 @@ const typeDefs = gql`
   }
 `;
 
-const videos = [
-  {
-    name: 'Testing',
-    file: 'testing.mp4',
-  },
-];
+// Load video files when server boots (No DB for video names, sorry! :))
+const videos = fs
+  .readdirSync(UPLOAD_DIR)
+  .filter(file => !file.startsWith('.'))
+  .map(file => {
+    const [hash, name] = file.split('-');
+    return {
+      name,
+      file: `${UPLOAD_DIR}/${file}`,
+    };
+  });
 
 const saveVideo = (filename, stream) => {
   // naive random id implementation
   const id = Math.random()
     .toString(36)
     .slice(2);
-  const path = __dirname + `/uploads/${id}-${filename}`;
+  const path = `${UPLOAD_DIR}/${id}-${filename}`;
   return new Promise((resolve, reject) =>
     stream
       .pipe(fs.createWriteStream(path))
