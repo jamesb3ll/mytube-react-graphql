@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GRAPHQL_ENDPOINT } from './constants';
+import { extractFiles } from 'extract-files';
 
 // Simple graphQL client usign React Hooks
 export function useQuery(query, variables) {
@@ -28,15 +29,40 @@ export function useMutation(query) {
 
   const runMutation = useCallback(
     variables => {
-      return fetch(GRAPHQL_ENDPOINT, {
-        method: 'POST',
-        body: JSON.stringify({
+      const { files } = extractFiles({ variables });
+      const fetchOptions = {};
+
+      // Based on GraphQL multipart request spec used by Apollo Server 2
+      // https://github.com/jaydenseric/graphql-multipart-request-spec
+      if (files.size) {
+        fetchOptions.body = new FormData();
+        fetchOptions.body.append(
+          'operations',
+          JSON.stringify({ query, variables })
+        );
+
+        // File map
+        const map = {};
+        let index = 0;
+        files.forEach(paths => (map[++index] = paths));
+        fetchOptions.body.append('map', JSON.stringify(map));
+
+        // File fields
+        index = 0;
+        files.forEach((paths, file) =>
+          fetchOptions.body.append(`${++index}`, file, file.name)
+        );
+      } else {
+        fetchOptions.body = JSON.stringify({
           query,
           ...(variables && { variables }),
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        });
+        fetchOptions.headers['Content-Type'] = 'application/json';
+      }
+
+      return fetch(GRAPHQL_ENDPOINT, {
+        method: 'POST',
+        ...fetchOptions,
       })
         .then(res => res.json())
         .then(setResponse)

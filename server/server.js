@@ -26,7 +26,7 @@ const saveVideo = (filename, stream) => {
   const id = Math.random()
     .toString(36)
     .slice(2);
-  const path = `./uploads/${id}-${filename}`;
+  const path = __dirname + `/uploads/${id}-${filename}`;
   return new Promise((resolve, reject) =>
     stream
       .pipe(fs.createWriteStream(path))

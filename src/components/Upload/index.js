@@ -8,8 +8,8 @@ export default function Upload() {
   const [loading, setLoading] = useState(false);
 
   const [{ errors, data: uploaded }, uploadVideo] = useMutation(`
-    mutation uploadTest($name: String!, $file: String!) {
-      uploadTest(name: $name, file: $file) {
+    mutation uploadVideo($name: String!, $file: Upload!) {
+      uploadVideo(name: $name, file: $file) {
         name
         file
       }
@@ -26,7 +26,8 @@ export default function Upload() {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    await uploadVideo({ name, file: file.name });
+    await uploadVideo({ name, file });
+    setLoading(false);
   }
 
   if (uploaded) {
@@ -39,7 +40,7 @@ export default function Upload() {
         <h1 className="title">Upload Video</h1>
         {errors && (
           <div className="notification is-danger">
-            <p>>There was an error uploading your video:</p>
+            <p>There was an error uploading your video:</p>
             <ul>
               {errors.map(err => (
                 <li>{err.message}</li>
