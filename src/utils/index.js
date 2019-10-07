@@ -1,52 +1,49 @@
 import { useState, useEffect, useCallback } from 'react';
+import { GRAPHQL_ENDPOINT } from './constants';
 
 // Simple graphQL client usign React Hooks
-export function createGraphQLHooks(endpoint) {
-  return {
-    useQuery(query, variables) {
-      const [response, setResponse] = useState({ data: null, errors: null });
+export function useQuery(query, variables) {
+  const [response, setResponse] = useState({ data: null, errors: null });
 
-      useEffect(() => {
-        fetch(endpoint, {
-          body: JSON.stringify({
-            query,
-            ...(variables && { variables }),
-          }),
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(res => res.json())
-          .then(setResponse)
-          .catch(err => setResponse({ errors: [err] }));
-      }, [query, variables]);
+  useEffect(() => {
+    fetch(GRAPHQL_ENDPOINT, {
+      body: JSON.stringify({
+        query,
+        ...(variables && { variables }),
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(setResponse)
+      .catch(err => setResponse({ errors: [err] }));
+  }, [query, variables]);
 
-      return response;
-    },
-    useMutation(query) {
-      const [response, setResponse] = useState({ data: null, errors: null });
+  return response;
+}
+export function useMutation(query) {
+  const [response, setResponse] = useState({ data: null, errors: null });
 
-      const runMutation = useCallback(
-        variables => {
-          return fetch(endpoint, {
-            method: 'POST',
-            body: JSON.stringify({
-              query,
-              ...(variables && { variables }),
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then(res => res.json())
-            .then(setResponse)
-            .catch(err => setResponse({ errors: [err] }));
+  const runMutation = useCallback(
+    variables => {
+      return fetch(GRAPHQL_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify({
+          query,
+          ...(variables && { variables }),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
         },
-        [query]
-      );
-
-      return [response, runMutation];
+      })
+        .then(res => res.json())
+        .then(setResponse)
+        .catch(err => setResponse({ errors: [err] }));
     },
-  };
+    [query]
+  );
+
+  return [response, runMutation];
 }
