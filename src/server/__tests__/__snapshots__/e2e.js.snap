@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Server gets videos 1`] = `
+Object {
+  "data": Object {
+    "videos": Array [
+      Object {
+        "file": "02rwt6csyud2-Surf.mp4",
+        "name": "Surf.mp4",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

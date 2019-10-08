@@ -32,5 +32,7 @@ app.get('/uploads/:fileName', ({ params }, res) => {
 });
 
 app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server started at http://localhost:4000${server.graphqlPath}`)
+  console.log(
+    `🚀  Server started at http://localhost:4000${server.graphqlPath}`
+  )
 );
