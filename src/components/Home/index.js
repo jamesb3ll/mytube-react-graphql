@@ -16,7 +16,7 @@ export default function Home() {
       <div className="container">
         <h1 className="title">Videos</h1>
         {errors && (
-          <div className="notification is-danger">
+          <div data-testid="errors" className="notification is-danger">
             There was an error when fetching your videos. Check your internet
             connection and try again.
           </div>
@@ -28,7 +28,7 @@ export default function Home() {
                   <div className="column is-half" key={video.file}>
                     <div className="card">
                       <div className="card-image">
-                        <video controls>
+                        <video controls data-testid="video">
                           <source
                             src={`${UPLOADS_ENDPOINT}/${video.file}`}
                             type="video/mp4"

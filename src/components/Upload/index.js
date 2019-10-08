@@ -17,10 +17,10 @@ export default function Upload() {
   `);
 
   function handleFile({ target }) {
-    const { validity, files } = target;
-    if (validity.valid) {
-      setFile(files[0]);
-    }
+    const {
+      files: [file],
+    } = target;
+    setFile(file);
   }
 
   async function handleSubmit(event) {
@@ -39,21 +39,22 @@ export default function Upload() {
       <div className="container">
         <h1 className="title">Upload Video</h1>
         {errors && (
-          <div className="notification is-danger">
+          <div data-testid="errors" className="notification is-danger">
             <p>There was an error uploading your video:</p>
             <ul>
               {errors.map(err => (
-                <li>{err.message}</li>
+                <li key={err.message}>{err.message}</li>
               ))}
             </ul>
           </div>
         )}
         <div className="column is-two-thirds">
-          <form onSubmit={handleSubmit}>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">Name</label>
               <div className="control">
                 <input
+                  data-testid="nameInput"
                   className="input"
                   type="text"
                   value={name}
@@ -67,6 +68,7 @@ export default function Upload() {
               <div className={`file is-boxed ${file && 'has-name'}`}>
                 <label className="file-label">
                   <input
+                    data-testid="fileInput"
                     className="file-input"
                     type="file"
                     required
@@ -75,7 +77,11 @@ export default function Upload() {
                   <span className="file-cta">
                     <span className="file-label">Choose a file…</span>
                   </span>
-                  {file && <span className="file-name">{file.name}</span>}
+                  {file && (
+                    <span data-testid="fileName" className="file-name">
+                      {file.name}
+                    </span>
+                  )}
                 </label>
               </div>
             </div>
@@ -83,6 +89,7 @@ export default function Upload() {
             <div className="field is-grouped">
               <div className="control">
                 <button
+                  data-testid="submitButton"
                   type="submit"
                   className={`button is-primary ${loading && 'is-loading'}`}
                 >

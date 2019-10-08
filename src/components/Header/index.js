@@ -14,7 +14,11 @@ export default function Header({ title, subtitle }) {
               </Link>
             </div>
             <div className="column" style={{ textAlign: 'right' }}>
-              <Link to="/upload" className="button is-medium is-secondary">
+              <Link
+                to="/upload"
+                data-testid="uploadButton"
+                className="button is-medium is-secondary"
+              >
                 Upload Video
               </Link>
             </div>
