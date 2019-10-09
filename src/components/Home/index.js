@@ -28,7 +28,7 @@ export default function Home() {
                   <div className="column is-half" key={video.file}>
                     <div className="card">
                       <div className="card-image">
-                        <video controls data-testid="video">
+                        <video className="video" data-testid="video" controls>
                           <source
                             src={`${UPLOADS_ENDPOINT}/${video.file}`}
                             type="video/mp4"
