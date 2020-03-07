@@ -1,4 +1,6 @@
-# MyTube – Shootsta Challenge
+# MyTube
+
+Simple YouTube Clone, built with React v16 Hooks and shows how to use GraphQL multipart uploads.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
