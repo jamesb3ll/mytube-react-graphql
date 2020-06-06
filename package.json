@@ -6,7 +6,7 @@
   "author": "James Bell",
   "private": true,
   "dependencies": {
-    "apollo-server-express": "^2.9.5",
+    "apollo-server-express": "^2.14.2",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "extract-files": "^5.0.1",
