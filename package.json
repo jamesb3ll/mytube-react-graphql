@@ -8,7 +8,7 @@
   "dependencies": {
     "apollo-server-express": "^2.9.5",
     "esm": "^3.2.25",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "extract-files": "^5.0.1",
     "graphql": "^14.5.8",
     "react": "^16.10.2",
